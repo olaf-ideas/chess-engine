@@ -6,7 +6,7 @@
 // move number meaning:
 // 0  -  5: destination square (0 - 63)
 // 6  - 11: origin square (0 - 63)
-// 12 - 13: promotion piece type - 2 (KNIGHT - 2 to QUEEN - 2) / castling type 0 - no castle, 1 - left, 2 - right
+// 12 - 13: promotion piece type - 2 (KNIGHT - 2 to QUEEN - 2) / castling type 1 - left, 2 - right
 // 14 - 15: 0 - normal move, 1 - promotion, 2 - en passant, 3 - castling
 
 enum Move : uint16_t {
@@ -38,7 +38,7 @@ enum Piece {
     PIECE_NB = 16
 };
 
-enum Castling {
+enum Castle {
     NO_CASTLE,
     CASTLE_LEFT  = 1 << 12,
     CASTLE_RIGHT = 2 << 12,
@@ -59,6 +59,9 @@ enum Square : int {
     SQUARE_NB   = 64,
 };
 
+inline Square& operator+= (Square &sq, int i) { sq = Square(sq + i); return sq; }
+inline Square& operator++ (Square &sq, int) { sq = Square(sq + 1); return sq; }
+
 enum Direction : int {
     NORTH  = +8,
     EAST   = +1,
@@ -70,5 +73,23 @@ enum Direction : int {
     SOUTH_WEST = SOUTH + WEST,
     NORTH_WEST = NORTH + WEST
 };
+
+inline Move make_move(const Square &from, const Square &to) {
+    return Move(NORMAL | to | (from << 6));
+}
+
+inline Move make_promotion(const Square &pos, const PieceType &type) {
+    return Move(PROMOTION | pos | (type - 2) << 12);
+}
+
+inline Move make_en_passant(const Square &from, const Square &to) {
+    return Move(EN_PASSANT | to | (from << 6));
+}
+
+inline Move make_castle(const Square &from, const Square &to, const Castle &dir) {
+    return Move(CASTLING | to | (from << 6) | dir);
+}
+
+typedef uint64_t Bitboard;
 
 #endif

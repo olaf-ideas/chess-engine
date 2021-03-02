@@ -5,9 +5,14 @@
 
 #include <SFML/Graphics.hpp>
 
+#include <string>
+
 class Board : public sf::Drawable {
 public:
     Square m_board[64] = {};
+
+    Board();
+    Board(const std::string &);
 
     void init_textures();
 

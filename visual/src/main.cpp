@@ -13,11 +13,8 @@ int main() {
 
     sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "", sf::Style::Default, settings);
     window.setFramerateLimit(30u);
-    Board board;
+    Board board("r1bqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
-    board.m_board[0] = KING | WHITE;
-    board.m_board[1] = QUEEN | BLACK;
-    board.m_board[8] = PAWN | WHITE;
     board.init_textures();
 
     Square holding_piece = NONE;
