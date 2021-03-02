@@ -90,6 +90,22 @@ inline Move make_castle(const Square &from, const Square &to, const Castle &dir)
     return Move(CASTLING | to | (from << 6) | dir);
 }
 
+inline Square get_to(const Move &move) {
+    return Square(move & 63);
+}
+
+inline Square get_from(const Move &move) {
+    return Square((move >> 6) & 63);
+}
+
+inline MoveType get_move_type(const Move &move) {
+    return MoveType((move & (3 << 14)) >> 14);
+}
+
+inline PieceType get_piece_type(const Move &move) {
+    return PieceType((move >> 12) & 3);
+}
+
 typedef uint64_t Bitboard;
 
 #endif

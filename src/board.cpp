@@ -47,7 +47,7 @@ Board::Board(const std::string &fen) {
 }
 
 void Board::make_move(Move move) {
-
+    
 }
 
 std::string Board::get_fen() const {
